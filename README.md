@@ -15,3 +15,4 @@ the docs
  - [ ] mail verification for new accounts
  - [ ] mail notification for actions
  - [ ] loans calculation algorithms
+ - [ ] logs saving and displaying
