@@ -36,4 +36,6 @@ app.use('/api/accounts', require('./routes/account'))
 app.use('/api/actions', require('./routes/actions'))
 app.use('/api/data', require('./routes/data'))
 
+app.get('/', (req,res)=>res.redirect('/api/docs'))
+
 app.listen(80, () => console.log("app runing"))
