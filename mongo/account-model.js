@@ -1,8 +1,14 @@
 const { Schema, model } = require('mongoose')
 
 const actionsSchema = new Schema({
-    type: String,
-    amount: Number,
+    type: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    },
     from: {
         type: Schema.Types.ObjectId,
         ref: 'account',

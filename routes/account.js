@@ -20,7 +20,7 @@ const router = require('express').Router()
  *           descripton: choose password to securly log into your account
  *       example:
  *         username: jo
- *         password: 123
+ *         password: qwerty
  *
  */
 
