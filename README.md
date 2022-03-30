@@ -15,5 +15,6 @@ Visit the [live demo](http://bankapi.ml/api/docs/)  to try it yourself.
 
  - [ ] Mail verification for new accounts
  - [ ] Mail notification for actions
+ - [ ] Mails preference for actions 
  - [ ] Loans calculation algorithms
  - [ ] Lock logs, only for admin role 
