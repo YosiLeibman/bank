@@ -54,4 +54,26 @@ router.get('/accounts', onlyLogged, async (req, res) => {
     }
 })
 
+/**
+ * @openapi
+ * /api/data/logs:
+ *   get:
+ *     description: returns visit and actions log of all accounts.
+ *     tags: [Logs]
+ *     responses:
+ *       200:
+ *         description: ok.
+ *       401:
+ *         description: please log in.
+ */
+router.get('/logs', onlyLogged, async (req, res) => {
+    try {
+        const logs = await Logs.find({})
+        res.send(logs)
+    } catch (err) {
+        res.sendStatus(500)
+        console.log(err)
+    }
+})
+
 module.exports = router

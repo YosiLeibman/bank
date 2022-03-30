@@ -26,7 +26,7 @@ const openApiSpecs = swaggerJsdoc({
             title:"Open Bank API",
             version:'1.0.0',
         },
-        tags:['Accounts', 'Actions','Data'],
+        tags:['Accounts', 'Actions','Data', 'Logs'],
     },
     apis:['./routes/*.js'],
 })

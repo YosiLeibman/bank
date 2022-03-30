@@ -1,18 +1,19 @@
 # Bank node backend API
+
 ### Live demo:
-visit the [live demo](http://bankapi.ml/api/docs/)  to try it yourself.
-the docs
+Visit the [live demo](http://bankapi.ml/api/docs/)  to try it yourself.
+
 ## Usage
 
- - register to create a new accout
- - log into your account to use the bank
- - you can deposit and\or withrawal 
- - you can transfer money between accounts
- - see your current balance and history
+ - Register to create a new accout
+ - Log into your account to use the bank
+ - You can deposit and\or withrawal 
+ - You can transfer money between accounts
+ - See your current balance and history
 
 ## To do
 
- - [ ] mail verification for new accounts
- - [ ] mail notification for actions
- - [ ] loans calculation algorithms
- - [ ] logs saving and displaying
+ - [ ] Mail verification for new accounts
+ - [ ] Mail notification for actions
+ - [ ] Loans calculation algorithms
+ - [ ] Lock logs, only for admin role 
