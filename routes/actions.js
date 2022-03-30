@@ -1,3 +1,4 @@
+const { onlyLogged } = require('../middlewares/onlyLogged')
 const { Accounts } = require('../mongo/account-model')
 
 const router = require('express').Router()
@@ -46,7 +47,7 @@ const router = require('express').Router()
  *       400:
  *         description: missing info in the request body or unknown account.
  */
-router.post('/', async (req, res) => {
+router.post('/', onlyLogged, async (req, res) => {
     try {
         const { type, amount, to } = req.body
 
@@ -73,21 +74,21 @@ router.post('/', async (req, res) => {
                 if (!to) {
                     return res.status(400).send({ err: 'invalid destenation. please choose valive account' })
                 }
-            
+
                 if (!account.credit && account.balance - amount <= 0) {
                     return res.status(400)
                         .send({ err: `your account is limited to debit only, please deposite at least $${Math.abs(account.balance - amount)} before trying again. ` })
                 }
 
-                account.actions.push({ type, amount ,to })
+                account.actions.push({ type, amount, to })
                 account.balance = account.balance - amount
 
                 const reciver = await Accounts.findById(to)
 
                 if (!reciver) {
-                    return res.status(400).send({err:'invalid destenation. please choose valive account'})
+                    return res.status(400).send({ err: 'invalid destenation. please choose valive account' })
                 }
-                reciver.actions.push({type,amount,from:account._id})
+                reciver.actions.push({ type, amount, from: account._id })
                 reciver.balance = reciver.balance + amount
                 await reciver.save()
                 break;
@@ -97,7 +98,7 @@ router.post('/', async (req, res) => {
         }
         await account.save()
 
-        res.send({msg: "action done"})
+        res.send({ msg: "action done" })
 
     } catch (err) {
         console.log(err)

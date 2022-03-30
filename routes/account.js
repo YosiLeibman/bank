@@ -1,4 +1,5 @@
 const { hash, compare } = require('bcrypt')
+const { onlyLogged } = require('../middlewares/onlyLogged')
 const { Accounts } = require('../mongo/account-model')
 const router = require('express').Router()
 
@@ -49,8 +50,8 @@ router.post('/register', async (req, res) => {
     try {
         const hashedPassword = await hash(password, 10)
 
-        const accountToBeSaved = new Accounts({username, password:hashedPassword})
-        
+        const accountToBeSaved = new Accounts({ username, password: hashedPassword })
+
         await accountToBeSaved.save()
 
         res.status(201).send({ msg: 'user added successfully' })
@@ -59,13 +60,13 @@ router.post('/register', async (req, res) => {
 
         res.status(400)
 
-        if(err.code == 11000){
+        if (err.code == 11000) {
 
-            res.send({err:"username already taken"})
+            res.send({ err: "username already taken" })
 
-        }else{
+        } else {
 
-            res.send({err:"username and password are required"})
+            res.send({ err: "username and password are required" })
 
         }
     }
@@ -93,7 +94,7 @@ router.post('/register', async (req, res) => {
  *       401:
  *         description: wrong password.
  */
-router.post('/login',async (req, res) => {
+router.post('/login', async (req, res) => {
 
     const { username, password } = req.body
 
@@ -103,20 +104,20 @@ router.post('/login',async (req, res) => {
     }
 
     try {
-            const account = await Accounts.findOne({ username: username})
-        
-            if (!account) {
-                return res.status(400).send({ err: 'user not found' })  
-            }
-        
-            if (!await compare(password, account.password)) {
-                return res.status(401).send({ err: 'wrong password' })
-            }
-        
-            req.session.account = {username, id:account._id}
-        
-            res.send({ msg: 'logged successfully, welcome ' + username })
-        
+        const account = await Accounts.findOne({ username: username })
+
+        if (!account) {
+            return res.status(400).send({ err: 'user not found' })
+        }
+
+        if (!await compare(password, account.password)) {
+            return res.status(401).send({ err: 'wrong password' })
+        }
+
+        req.session.account = { username, id: account._id }
+
+        res.send({ msg: 'logged successfully, welcome ' + username })
+
     } catch (err) {
         console.log(err)
         res.status(500).send(err)
@@ -137,7 +138,7 @@ router.post('/login',async (req, res) => {
  *       401:
  *         description: you need to log in in order to log out.
  */
-router.delete('/logout', (req, res) => {
+router.delete('/logout', onlyLogged, (req, res) => {
     const name = req.session.account.username
     req.session.destroy()
     res.send({ msg: "bye bye " + name })

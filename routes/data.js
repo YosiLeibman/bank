@@ -1,3 +1,4 @@
+const { onlyLogged } = require('../middlewares/onlyLogged')
 const { Accounts } = require('../mongo/account-model')
 
 const router = require('express').Router()
@@ -15,16 +16,16 @@ const router = require('express').Router()
  *       401:
  *         description: please log in.
  */
-router.get('/history', async (req, res) => {
+router.get('/history', onlyLogged, async (req, res) => {
     try {
         const account = await Accounts.findById(req.session.account.id).populate({
-            path:'actions.to',
-            select:'username'
+            path: 'actions.to',
+            select: 'username'
         }).populate({
-            path:'actions.from',
-            select:'username'
+            path: 'actions.from',
+            select: 'username'
         })
-        res.send({history: account.actions, balance:account.balance})
+        res.send({ history: account.actions, balance: account.balance })
     } catch (err) {
         res.sendStatus(500)
         console.log(err)
@@ -43,9 +44,9 @@ router.get('/history', async (req, res) => {
  *       401:
  *         description: please log in.
  */
-router.get('/accounts', async (req, res) => {
+router.get('/accounts', onlyLogged, async (req, res) => {
     try {
-        const accounts = await Accounts.find({},{username:1})
+        const accounts = await Accounts.find({}, { username: 1 })
         res.send(accounts)
     } catch (err) {
         res.sendStatus(500)
