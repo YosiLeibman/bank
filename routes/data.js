@@ -1,5 +1,6 @@
 const { onlyLogged } = require('../middlewares/onlyLogged')
 const { Accounts } = require('../mongo/account-model')
+const { Logs } = require('../mongo/logs-model')
 
 const router = require('express').Router()
 
